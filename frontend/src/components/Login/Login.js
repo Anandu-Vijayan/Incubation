@@ -1,4 +1,5 @@
-import React from 'react'
+import React,{useState} from 'react'
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Login.css'
 import Avatar from '@mui/material/Avatar';
@@ -15,30 +16,42 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-function Copyright(props) {
-    return (
-      <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        {'Copyright © '}
-        <Link color="inherit" href="https://mui.com/">
-          Your Website
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
+// function Copyright(props) {
+//     return (
+//       <Typography variant="body2" color="text.secondary" align="center" {...props}>
+//         {'Copyright © '}
+//         <Link color="inherit" href="https://mui.com/">
+//           Your Website
+//         </Link>{' '}
+//         {new Date().getFullYear()}
+//         {'.'}
+//       </Typography>
+//     );
+//   }
 
   const theme = createTheme();
 
 function Login() {
-    const Navigate=useNavigate()
-    const handleSubmit = (event) => {
+    const Navigate=useNavigate('')
+    const [user,setUser]=useState({
+      email:"",password:""
+    })
+    
+    const handleChange=(e)=>{
+      const name=e.target.name
+      const value=e.target.value
+      setUser({...user,[name]:value})
+    }
+    console.log(user);
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-          email: data.get('email'),
-          password: data.get('password'),
-        });
+        try {
+          const res=await axios.post("http://localhost:5000/login",user)
+          console.log(res.data);
+          
+         } catch (error) {
+          console.log(error);
+         } 
       };
   return (
     <ThemeProvider theme={theme}>
@@ -58,7 +71,7 @@ function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit}  sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -66,6 +79,8 @@ function Login() {
               id="email"
               label="Email Address"
               name="email"
+              value={user.name}
+              onChange={handleChange}
               autoComplete="email"
               autoFocus
             />
@@ -74,6 +89,8 @@ function Login() {
               required
               fullWidth
               name="password"
+              value={user.password}
+              onChange={handleChange}
               label="Password"
               type="password"
               id="password"

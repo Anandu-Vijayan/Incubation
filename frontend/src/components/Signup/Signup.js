@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -42,16 +43,17 @@ const Signup=() => {
     }
 
     console.log(user);
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log(data);
-        // console.log({
-        //   firstName: data.get('firstName'),
-        //   lastName: data.get('lastName'),
-        //   email: data.get('email'),
-        //   password: data.get('password'),
-        // });
+       try {
+        const res=await axios.post("http://localhost:5000/signup",user)
+        console.log(res.data);
+        
+       } catch (error) {
+        console.log(error);
+       } 
+        
+       
       };
 
       

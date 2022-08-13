@@ -1,6 +1,9 @@
 
 // import { Router } from 'react-router-dom';
+import React,{useState} from 'react'
 import './App.css';
+import axios from 'axios'
+
 import Navbar from './components/Navbar/Navbar';
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 import Home from './components/pages/pages';
@@ -8,6 +11,7 @@ import Signup from './components/Signup/Signup';
 import Login from './components/Login/Login';
 
 function App() {
+  
   return (
     <Router>
      <Navbar />
