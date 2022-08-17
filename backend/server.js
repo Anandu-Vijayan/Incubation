@@ -16,15 +16,8 @@ app.use(cors())
 connectDB();
 app.use(express.json());
 
-app.post("/signup",(req,res)=>{
-    console.log(req.body);
-    res.send("This is working")
-}) 
-app.post("/login",(req,res)=>{
-    console.log(req.body);
-    res.send("Login Working")
-})
-app.use('/users',userRoutes)
+
+app.use('/',userRoutes)
 app.use(notFound)
 app.use(errorHandler)
 app.listen(PORT,console.log(`server Started on PORT ${PORT}`)) 

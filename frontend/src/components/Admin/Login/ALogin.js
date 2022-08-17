@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Login.css'
+import './ALogin.css'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -31,39 +31,47 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-function Login({}) {
+function ALogin() {
   const Navigate = useNavigate('')
+  // const [user, setUser] = useState({
+  //   email: "", password: ""
+  // })
+
   const[email,setEmail]=useState('')
   const[password,setPassword]=useState('')
-  const [error,setError]= useState(false)
-  const[loading,setLoading]= useState('false')
-
-
   
 
+
+  // const handleChange = (e) => {
+  //   const name = e.target.name
+  //   const value = e.target.value
+  //   setUser({ ...user, [name]: value })
+  // }
   
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // console.log({email,password});
-
+    console.log({email,password});
     try {
-      // const config = {
-      //   headers: {
-      //     "Content-type": "application/json"
-      //   },
-      // }
+      const config = {
+        headers: {
+          "Content-type": "application/json"
+        },
+      }
       // setLoading(true);
-
-
-      const data  = await axios.post(
-        "/login",{  email,  password  }  );
+      const { data } = await axios.post(
+        "/login",
+        {
+          email: email,
+          password: password,
+          
+        },
+        config
+        
+      );
       console.log(data);
-      localStorage.setItem("userInfo",JSON.stringify(data))
-      setLoading(false)
-      Navigate("/")
+
+      localStorage.setItem('userInfo',JSON.stringify(data))
     } catch (error) {
-      setError(error.response.data.message)
       console.log(error);
     }
   };
@@ -83,9 +91,9 @@ function Login({}) {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Log in
+            ADMIN LOG IN
           </Typography>
-          <form noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -93,7 +101,7 @@ function Login({}) {
               id="email"
               label="Email Address"
               name="email"
-              value={email}
+              
               onChange={(e)=>setEmail(e.target.value)}
               autoComplete="email"
               autoFocus
@@ -103,7 +111,7 @@ function Login({}) {
               required
               fullWidth
               name="password"
-              value={password}
+               
               onChange={(e)=>setPassword(e.target.value)}
               label="Password"
               type="password"
@@ -128,13 +136,13 @@ function Login({}) {
                   Forgot password?
                 </Link> */}
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <Link className='pointer' onClick={() => { Navigate('/sign-up') }} variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
-              </Grid>
+              </Grid> */}
             </Grid>
-          </form>
+          </Box>
         </Box>
         {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
@@ -142,4 +150,4 @@ function Login({}) {
   )
 }
 
-export default Login
+export default ALogin

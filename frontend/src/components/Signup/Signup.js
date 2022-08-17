@@ -31,11 +31,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
   
 
 const Signup=() => {
-    const Navigate=useNavigate('')
+
+    const navigate=useNavigate()
     const [user,setUser]=useState({
       firstName:"",lastName:"",email:"",password:""
 
     })
+   
     const handleChange=(e)=>{
       const name=e.target.name
       const value=e.target.value
@@ -46,8 +48,15 @@ const Signup=() => {
     const handleSubmit = async (event) => {
         event.preventDefault();
        try {
-        const res=await axios.post("http://localhost:5000/signup",user)
-        console.log(res.data);
+      await axios.post("/signup",user).then((response)=>{
+        console.log(response.data);
+        if(response.data){
+          {navigate('/login')}
+        }else{
+          
+        }
+      })
+       
         
        } catch (error) {
         console.log(error);
@@ -149,7 +158,7 @@ const Signup=() => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link className='pointer' onClick={()=>{Navigate('/login')}} variant="body2">
+                <Link className='pointer' onClick={()=>{navigate('/login')}} variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
